@@ -11,10 +11,8 @@ Sistema completo de gestão de estoque, simulando um ambiente IoT com controle d
 - Geração de alertas para níveis críticos de estoque
 - Registro de histórico de movimentações
 - Dashboard de visualização no Tagorun
-
-Integração segura com MySQL
-
-Interface web moderna
+- Integração segura com MySQL
+- Interface web moderna
 
 ### 🛠️ Tecnologias Utilizadas
 - Backend: Python + Flask
