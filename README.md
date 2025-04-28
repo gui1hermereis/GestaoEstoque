@@ -92,6 +92,5 @@ npm run dev
 Os dados de estoque são enviados e visualizados através do Tagorun, possibilitando dashboards interativos para análises em tempo real.
 Acesse o dashboard de visualização de dados aqui: link
 
-📬 Contato
-
+## 📬 Contato
 Desenvolvido por Guilherme Reis 🚀
