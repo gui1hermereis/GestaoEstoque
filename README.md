@@ -24,7 +24,7 @@ Sistema completo de gestão de estoque, simulando um ambiente IoT com controle d
 ## 📊 Integração com Dashboard (Tagorun)
 Os dados de estoque são enviados e visualizados através do Tagorun, possibilitando dashboards interativos para análises em tempo real.
 
-Acesse o dashboard de visualização de dados aqui: link
+Acesse o dashboard de visualização de dados [aqui](https://680af01809d547000ad4e172.us-e1.tago.run/dashboards/info/680c19f296c409000ab2272e?anonymousToken=00000000-680a-f018-09d5-47000ad4e172)
 
 ## 🚀 Como Rodar o Projeto
 
