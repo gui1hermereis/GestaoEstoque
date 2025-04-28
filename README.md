@@ -32,6 +32,7 @@ cd GestaoEstoque
 
 ## 2. Configure o ambiente virtual Python
 ```bash
+cd API
 python -m venv venv
 Ative o ambiente:
 source venv/bin/activate  # Linux/Mac
@@ -41,7 +42,6 @@ source venv/bin/activate  # Linux/Mac
 
 ## 3. Instale as dependências do backend
 ```bash
-cd API
 pip install -r requirements.txt
 ```
 
