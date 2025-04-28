@@ -21,6 +21,11 @@ Sistema completo de gestão de estoque, simulando um ambiente IoT com controle d
 - Dashboard: Tagorun
 - Gerenciamento de Ambiente: dotenv (.env)
 
+## 📊 Integração com Dashboard (Tagorun)
+Os dados de estoque são enviados e visualizados através do Tagorun, possibilitando dashboards interativos para análises em tempo real.
+
+Acesse o dashboard de visualização de dados aqui: link
+
 ## 🚀 Como Rodar o Projeto
 
 ## 1. Clone o repositório
@@ -87,10 +92,6 @@ cd ../frontend
 npm install
 npm run dev
 ```
-## 📊 Integração com Dashboard (Tagorun)
-
-Os dados de estoque são enviados e visualizados através do Tagorun, possibilitando dashboards interativos para análises em tempo real.
-Acesse o dashboard de visualização de dados aqui: link
 
 ## 📬 Contato
 Desenvolvido por Guilherme Reis 🚀
