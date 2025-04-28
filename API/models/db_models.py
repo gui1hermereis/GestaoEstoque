@@ -2,7 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 import pytz
 
-
 db = SQLAlchemy()
 
 tz = pytz.timezone('America/Sao_Paulo')

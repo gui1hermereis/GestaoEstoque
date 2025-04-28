@@ -241,6 +241,7 @@ function PrateleirasProdutos() {
                     />
                 </div>
                 <div className="botao-simulacao">
+                    <h2 className="prateleiras-produtos-header">Estoque</h2>
                     <button onClick={simularBalanca} className={`btn ${simulando ? 'btn-parar' : 'btn-simular'}`}>
                         {simulando ? 'Parar Simulação' : 'Iniciar Simulação'}
                     </button>

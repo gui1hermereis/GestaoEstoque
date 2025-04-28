@@ -1,7 +1,13 @@
+import os
 import requests
 import json
 import uuid
 from datetime import datetime, timezone
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_URL = os.getenv('API_URL')
 
 # Configurações
 DEVICE_TOKEN = "4cd684a4-5f3d-498b-9076-cca5086d3a6a"
@@ -9,7 +15,6 @@ HEADERS = {
     "Content-Type": "application/json",
     "Device-Token": DEVICE_TOKEN
 }
-API_URL = "https://e60f-2804-7f0-9580-f204-d4fa-cbe6-deab-fe72.ngrok-free.app"
 
 # ------------------ PRODUTOS ------------------
 def buscar_produtos():

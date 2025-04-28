@@ -47,9 +47,12 @@ def enviar_arquivos_tago():
 scheduler = BackgroundScheduler()
 scheduler.add_job(excluir_arquivos_tago, 'interval', minutes=60)  
 scheduler.add_job(enviar_arquivos_tago, 'interval', minutes=60)  
-scheduler.start()
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()  
+
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        scheduler.start()
+
     app.run(debug=True)
