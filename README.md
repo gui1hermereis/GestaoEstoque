@@ -1,6 +1,6 @@
 # Gestão de Estoque com Simulação IoT
 
-Sistema completo de gestão de estoque, simulando um ambiente IoT com controle de estoque a partir de sensores de balança em prateleiras. O sistema é composto por backend em Flask, frontend em React utilizando Vite, banco de dados MySQL e integração com dashboard de visualização de dados via Tagorun.
+Sistema completo de gestão de estoque, simulando um ambiente IoT com controle de estoque a partir de sensores de balança em prateleiras. O sistema é composto por backend em Python com Flask, frontend em React utilizando Vite, banco de dados MySQL e integração com dashboard de visualização de dados via Tagorun.
 
 ### ✨ Funcionalidades
 - Simulação de um sistema IoT de gerenciamento de estoque por peso
