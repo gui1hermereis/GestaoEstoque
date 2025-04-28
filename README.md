@@ -61,7 +61,7 @@ CREATE DATABASE api;
 
 ## 5. Baixe e configure o ngrok
 
-Acesse ngrok.com, crie uma conta gratuita e baixe o ngrok.
+Acesse [ngrok.com](https://ngrok.com/), crie uma conta gratuita e baixe o ngrok.
 
 Após a instalação, exponha a porta do backend (porta 5000) com o comando:
 ```bash
