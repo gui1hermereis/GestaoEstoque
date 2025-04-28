@@ -18,8 +18,7 @@ Sistema completo de gestão de estoque, simulando um ambiente IoT com controle d
 - Backend: Python + Flask
 - Frontend: React + Vite
 - Banco de Dados: MySQL
-- Dashboard: Tagorun
-- Gerenciamento de Ambiente: dotenv (.env)
+- Dashboard: TagoIo + Tagorun
 
 ## 📊 Integração com Dashboard (Tagorun)
 Os dados de estoque são enviados e visualizados através do Tagorun, possibilitando dashboards para análises em tempo real.
