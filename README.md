@@ -39,7 +39,7 @@ cd GestaoEstoque
 ```bash
 cd API
 python -m venv venv
-Ative o ambiente:
+# Ative o ambiente:
 .\venv\Scripts\activate   # Windows
 # ou
 source venv/bin/activate  # Linux/Mac
