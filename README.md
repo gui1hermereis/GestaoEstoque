@@ -35,9 +35,9 @@ cd GestaoEstoque
 cd API
 python -m venv venv
 Ative o ambiente:
-source venv/bin/activate  # Linux/Mac
-# ou
 .\venv\Scripts\activate    # Windows
+# ou
+source venv/bin/activate  # Linux/Mac
 ```
 
 ## 3. Instale as dependências do backend
