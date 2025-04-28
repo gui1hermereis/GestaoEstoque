@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models.db_models import db, Produto
-from models.db_models import PrateleiraProduto 
+from models.db_models import db, Produto, PrateleiraProduto, Alertas
 
 produtos_bp = Blueprint('produtos', __name__)
 
@@ -16,6 +15,10 @@ def cadastrar():
 
         if not marca or not nome or not descricao or not peso or not preco_unidade:
             return jsonify({'success': False, 'message': 'Dados incompletos.'}), 400
+        
+        produto_existente = Produto.query.filter_by(marca=marca, nome=nome).first()
+        if produto_existente:
+            return jsonify({'success': False, 'message': 'Produto já cadastrado com essa combinação de nome e marca.'}), 400
         
         new_prod = Produto(
             marca=marca, 
@@ -48,6 +51,11 @@ def editar(produto_id):
         produto = Produto.query.get(produto_id)
         if not produto:
             return jsonify({'success': False, 'message': 'Produto não encontrado.'}), 404
+        
+        if produto.nome != nome or produto.marca != marca:
+            produto_existente = Produto.query.filter_by(marca=marca, nome=nome).filter(Produto.id != produto_id).first()
+            if produto_existente:
+                return jsonify({'success': False, 'message': 'Produto já cadastrado com essa combinação de nome e marca.'}), 400
 
         produto.marca = marca
         produto.nome = nome
@@ -55,15 +63,19 @@ def editar(produto_id):
         produto.peso = peso
         produto.preco_unidade = preco_unidade
 
-        prateleira_produtos = PrateleiraProduto.query.filter_by(produto_id=produto_id).all()
-        for prateleira_produto in prateleira_produtos:
-            prateleira_produto.preco_total = prateleira_produto.quantidade * preco_unidade
-            prateleira_produto.peso_atual = prateleira_produto.quantidade * peso
+        prateleira_produto = PrateleiraProduto.query.filter_by(produto_id=produto_id).first()
+
+        if prateleira_produto:
+            prateleira_produto.preco_total = prateleira_produto.quantidade * int(preco_unidade)
+            prateleira_produto.peso_atual = prateleira_produto.quantidade * int(peso)
+
+            print(prateleira_produto.preco_total)
+            print(prateleira_produto.peso_atual)
 
         db.session.commit()
 
         return jsonify({'success': True, 'message': 'Produto atualizado com sucesso.'})
-    
+
     except Exception as e:
         return jsonify({'success': False, 'message': f'Erro no servidor: {str(e)}'}), 500
 
@@ -71,7 +83,7 @@ def editar(produto_id):
 @produtos_bp.route('/produtos', methods=['GET'])
 def listar():
     try:
-        produtos = Produto.query.all()
+        produtos = Produto.query.filter_by(ativo=True).order_by(Produto.id.desc()).all()
 
         produtos_lista = [{
             'id': produto.id,
@@ -86,18 +98,19 @@ def listar():
     except Exception as e:
         return jsonify({'success': False, 'message': f'Erro ao buscar produtos: {str(e)}'}), 500
     
+
 @produtos_bp.route('/produtos/<int:produto_id>', methods=['DELETE'])
-def deletar(produto_id):
+def desativar_produto(produto_id):
     try:
         produto = Produto.query.get(produto_id)
         if not produto:
             return jsonify({'success': False, 'message': 'Produto não encontrado.'}), 404
 
+        produto.ativo = False  
         PrateleiraProduto.query.filter_by(produto_id=produto_id).delete()
 
-        db.session.delete(produto)
         db.session.commit()
 
-        return jsonify({'success': True, 'message': 'Produto deletado com sucesso.'})
+        return jsonify({'success': True, 'message': 'Produto desativado com sucesso.'})
     except Exception as e:
-        return jsonify({'success': False, 'message': f'Erro ao deletar produto: {str(e)}'}), 500
+        return jsonify({'success': False, 'message': f'Erro ao desativar produto: {str(e)}'}), 500

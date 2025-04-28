@@ -9,7 +9,7 @@ HEADERS = {
     "Content-Type": "application/json",
     "Device-Token": DEVICE_TOKEN
 }
-API_URL = "https://c1a3-2804-7f0-9580-f204-70c8-c365-33f1-f2f3.ngrok-free.app"
+API_URL = "https://e60f-2804-7f0-9580-f204-d4fa-cbe6-deab-fe72.ngrok-free.app"
 
 # ------------------ PRODUTOS ------------------
 def buscar_produtos():

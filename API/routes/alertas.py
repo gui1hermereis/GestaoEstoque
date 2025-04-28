@@ -60,6 +60,72 @@ def verificar_alerta(produto_id, prateleira_id, tipo_movimentacao):
                 db.session.commit()
 
     return None
+
+@alertas_bp.route("/alertas/todos", methods=["GET"])
+def listar():
+    try:
+        resultados = db.session.query(
+            Alertas.tipo_alerta.label("tipo_alerta"),
+            Produto.nome.label("nome_produto"),
+            Prateleira.nome.label("nome_prateleira"),
+            Alertas.quantidade.label("quantidade"),
+            Alertas.data_hora.label("data_hora"),
+            Alertas.ativo.label("ativo")
+        ).join(Produto, Alertas.produto_id == Produto.id
+        ).join(Prateleira, Alertas.prateleira_id == Prateleira.id
+        ).order_by(Alertas.data_hora.desc()
+        ).all()
+
+        dados = []
+        for r in resultados:
+            data_hora_formatada = r.data_hora.strftime("%d/%m/%y %H:%M") if r.data_hora else None
+            status = "Ativo" if r.ativo else "Inativo"
+            dados.append({
+                "tipo_alerta": r.tipo_alerta,
+                "nome_produto": r.nome_produto,
+                "nome_prateleira": r.nome_prateleira,
+                "quantidade": r.quantidade,
+                "data_hora": data_hora_formatada,
+                "ativo": status,
+            })
+
+        return jsonify({"success": True, "data": dados})
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500
+    
+@alertas_bp.route("/alertas/nao_resolvidos", methods=["GET"])
+def listar_nao_resolvidos():
+    try:
+        resultados = db.session.query(
+            Alertas.tipo_alerta.label("tipo_alerta"),
+            Produto.nome.label("nome_produto"),
+            Prateleira.nome.label("nome_prateleira"),
+            Alertas.quantidade.label("quantidade"),
+            Alertas.data_hora.label("data_hora"),
+            Alertas.ativo.label("ativo")
+        ).join(Produto, Alertas.produto_id == Produto.id
+        ).join(Prateleira, Alertas.prateleira_id == Prateleira.id
+        ).filter(
+            Alertas.ativo == True
+        ).order_by(Alertas.data_hora.desc()
+        ).all()
+
+        dados = []
+        for r in resultados:
+            data_hora_formatada = r.data_hora.strftime("%d/%m/%y %H:%M") if r.data_hora else None
+            status = "Ativo" if r.ativo else "Inativo"
+            dados.append({
+                "tipo_alerta": r.tipo_alerta,
+                "nome_produto": r.nome_produto,
+                "nome_prateleira": r.nome_prateleira,
+                "quantidade": r.quantidade,
+                "data_hora": data_hora_formatada,
+                "ativo": status,
+            })
+
+        return jsonify({"success": True, "data": dados})
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500
     
 @alertas_bp.route("/alertas/contagem_total", methods=["GET"])
 def total_alertas():
@@ -82,38 +148,6 @@ def total_alertas():
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500
     
-@alertas_bp.route("/alertas/todos", methods=["GET"])
-def listar():
-    try:
-        resultados = db.session.query(
-            Alertas.tipo_alerta.label("tipo_alerta"),
-            Produto.nome.label("nome_produto"),
-            Prateleira.nome.label("nome_prateleira"),
-            Alertas.quantidade.label("quantidade"),
-            Alertas.data_hora.label("data_hora"),
-            Alertas.ativo.label("ativo")
-        ).join(Produto, Alertas.produto_id == Produto.id
-        ).join(Prateleira, Alertas.prateleira_id == Prateleira.id
-        ).all()
-
-        dados = []
-        for r in resultados:
-            data_hora_formatada = r.data_hora.strftime("%d/%m/%y %H:%M") if r.data_hora else None
-            status = "Ativo" if r.ativo else "Inativo"
-            dados.append({
-                "tipo_alerta": r.tipo_alerta,
-                "nome_produto": r.nome_produto,
-                "nome_prateleira": r.nome_prateleira,
-                "quantidade": r.quantidade,
-                "data_hora": data_hora_formatada,
-                "ativo": status,
-            })
-
-        return jsonify({"success": True, "data": dados})
-    except Exception as e:
-        return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500
-
-    
 @alertas_bp.route("/alertas/contagem_nao_resolvidos", methods=["GET"])
 def total_alertas_nao_resolvidos():
     try:
@@ -131,39 +165,6 @@ def total_alertas_nao_resolvidos():
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500
 
-
-@alertas_bp.route("/alertas/nao_resolvidos", methods=["GET"])
-def listar_nao_resolvidos():
-    try:
-        resultados = db.session.query(
-            Alertas.tipo_alerta.label("tipo_alerta"),
-            Produto.nome.label("nome_produto"),
-            Prateleira.nome.label("nome_prateleira"),
-            Alertas.quantidade.label("quantidade"),
-            Alertas.data_hora.label("data_hora"),
-            Alertas.ativo.label("ativo")
-        ).join(Produto, Alertas.produto_id == Produto.id
-        ).join(Prateleira, Alertas.prateleira_id == Prateleira.id
-        ).filter(
-            Alertas.ativo == True
-        ).all()
-
-        dados = []
-        for r in resultados:
-            data_hora_formatada = r.data_hora.strftime("%d/%m/%y %H:%M") if r.data_hora else None
-            status = "Ativo" if r.ativo else "Inativo"
-            dados.append({
-                "tipo_alerta": r.tipo_alerta,
-                "nome_produto": r.nome_produto,
-                "nome_prateleira": r.nome_prateleira,
-                "quantidade": r.quantidade,
-                "data_hora": data_hora_formatada,
-                "ativo": status,
-            })
-
-        return jsonify({"success": True, "data": dados})
-    except Exception as e:
-        return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500
     
 @alertas_bp.route("/alertas/contagem_resolvidos", methods=["GET"])
 def total_alertas_resolvidos():

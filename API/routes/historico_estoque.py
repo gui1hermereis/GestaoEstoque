@@ -18,6 +18,7 @@ def listar():
             HistoricoMovimentacao.data_hora.label("data_hora")
         ).join(HistoricoMovimentacao, Produto.id == HistoricoMovimentacao.produto_id
         ).join(Prateleira, Prateleira.id == HistoricoMovimentacao.prateleira_id
+        ).order_by(HistoricoMovimentacao.data_hora.desc()
         ).all()
 
         dados = []
@@ -140,7 +141,7 @@ def listar_mais_vendido():
             }
             return jsonify({"success": True, "data": [dado]})
         else:
-            return jsonify({"success": True, "data": None, "message": "Nenhum produto vendido encontrado."})
+            return jsonify({"success": True, "data": None, "message": "Nenhum produto encontrado."})
 
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro no servidor: {str(e)}"}), 500

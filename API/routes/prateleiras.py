@@ -14,8 +14,13 @@ def cadastrar():
         if not nome or not setor:
             return jsonify({'success': False, 'message': 'Dados incompletos.'}), 400
         
-        if Prateleira.query.filter_by(nome=nome).first():
-            return jsonify({'success': False, 'message': 'Já existe outra prateleira com esse nome.'}), 400
+        prateleira_nome_existente = Prateleira.query.filter_by(nome=nome).first()
+        if prateleira_nome_existente:
+            return jsonify({'success': False, 'message': 'Já existe uma prateleira com esse nome.'}), 400
+        
+        prateleira_existente = Prateleira.query.filter_by(nome=nome, setor=setor).first()
+        if prateleira_existente:
+            return jsonify({'success': False, 'message': 'Já existe uma prateleira com esse nome e setor.'}), 400
         
         new_prat = Prateleira(
             nome=nome, 
@@ -43,9 +48,13 @@ def editar(prateleira_id):
         if not prateleira:
             return jsonify({'success': False, 'message': 'Prateleira não encontrada.'}), 404
 
-        prateleira_existente = Prateleira.query.filter(Prateleira.nome == nome, Prateleira.id != prateleira_id).first()
+        prateleira_nome_existente = Prateleira.query.filter_by(nome=nome).filter(Prateleira.id != prateleira_id).first()
+        if prateleira_nome_existente:
+            return jsonify({'success': False, 'message': 'Já existe uma prateleira com esse nome.'}), 400
+        
+        prateleira_existente = Prateleira.query.filter_by(nome=nome, setor=setor).filter(Prateleira.id != prateleira_id).first()
         if prateleira_existente:
-            return jsonify({'success': False, 'message': 'Já existe outra prateleira com esse nome.'}), 400
+            return jsonify({'success': False, 'message': 'Já existe uma prateleira com esse nome e setor.'}), 400
 
         prateleira.nome = nome
         prateleira.setor = setor
@@ -60,7 +69,7 @@ def editar(prateleira_id):
 @prateleiras_bp.route('/prateleiras', methods=['GET'])
 def listar():
     try:
-        prateleiras = Prateleira.query.all()
+        prateleiras = Prateleira.query.filter_by(ativo=True).order_by(Prateleira.id.desc()).all()
 
         prateleiras_lista = [{
             'id': prateleira.id,
@@ -73,17 +82,17 @@ def listar():
         return jsonify({'success': False, 'message': f'Erro ao buscar prateleiras: {str(e)}'}), 500
     
 @prateleiras_bp.route('/prateleiras/<int:prateleira_id>', methods=['DELETE'])
-def deletar(prateleira_id):
+def desativar_prateleira(prateleira_id):
     try:
         prateleira = Prateleira.query.get(prateleira_id)
         if not prateleira:
-            return jsonify({'success': False, 'message': 'Prateleira não encontrada.'}), 404
+            return jsonify({'success': False, 'message': 'Produto não encontrado.'}), 404
 
+        prateleira.ativo = False  
         PrateleiraProduto.query.filter_by(prateleira_id=prateleira_id).delete()
 
-        db.session.delete(prateleira)
         db.session.commit()
 
-        return jsonify({'success': True, 'message': 'Prateleira deletada com sucesso.'})
+        return jsonify({'success': True, 'message': 'Prateleira desativada com sucesso.'})
     except Exception as e:
-        return jsonify({'success': False, 'message': f'Erro ao deletar prateleira: {str(e)}'}), 500
+        return jsonify({'success': False, 'message': f'Erro ao desativar prateleira: {str(e)}'}), 500

@@ -1,7 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
+import pytz
+
 
 db = SQLAlchemy()
+
+tz = pytz.timezone('America/Sao_Paulo')
 
 class Produto(db.Model):
     __tablename__ = 'produtos'
@@ -12,6 +16,7 @@ class Produto(db.Model):
     descricao = db.Column(db.String(255), nullable=False)  
     peso = db.Column(db.Float, nullable=False)  
     preco_unidade = db.Column(db.Float, nullable=False)  
+    ativo = db.Column(db.Boolean, default=True)
 
     prateleiras = db.relationship('PrateleiraProduto', back_populates='produto')
 
@@ -25,6 +30,7 @@ class Prateleira(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), unique=True, nullable=False)
     setor = db.Column(db.String(100), nullable=False)
+    ativo = db.Column(db.Boolean, default=True)
 
     produtos = db.relationship('PrateleiraProduto', back_populates='prateleira')
 
@@ -58,7 +64,7 @@ class HistoricoMovimentacao(db.Model):
     tipo_movimentacao = db.Column(db.String(10), nullable=False) 
     quantidade = db.Column(db.Integer, nullable=False)
     preco_total = db.Column(db.Float, nullable=False)
-    data_hora = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    data_hora = db.Column(db.DateTime, default=lambda: datetime.now(tz))
 
     produto = db.relationship('Produto', backref=db.backref('historicos', lazy=True))
     prateleira = db.relationship('Prateleira', backref=db.backref('historicos', lazy=True))
@@ -74,7 +80,7 @@ class Alertas(db.Model):
     produto_id = db.Column(db.Integer, db.ForeignKey('produtos.id'), nullable=False)
     prateleira_id = db.Column(db.Integer, db.ForeignKey('prateleiras.id'), nullable=False)
     quantidade = db.Column(db.Integer, nullable=False)
-    data_hora = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    data_hora = db.Column(db.DateTime, default=lambda: datetime.now(tz))
     ativo = db.Column(db.Boolean, default=True)
 
     produto = db.relationship('Produto', backref=db.backref('alertas', lazy=True))

@@ -2,8 +2,16 @@ from flask import Blueprint, request, jsonify
 from models.db_models import db, Produto, Prateleira, PrateleiraProduto, HistoricoMovimentacao, Alertas
 from routes.alertas import verificar_alerta
 
-
 balanca_bp = Blueprint('balanca', __name__)
+
+def emular_sensor(produto_id, quantidade):
+    produto = Produto.query.get(produto_id)
+    if not produto:
+        raise ValueError("Produto não encontrado.")
+    peso_prod = produto.peso
+    peso_total_balanca = peso_prod * quantidade
+    return peso_total_balanca
+
 
 @balanca_bp.route("/balanca/adicionar_produto", methods=["POST"])
 def adicionar_produto():
@@ -12,10 +20,12 @@ def adicionar_produto():
         produto_id = data.get('produto_id')
         prateleira_id = data.get('prateleira_id')
         quantidade_adicionada = data.get('quantidade')
-        
+             
         if not produto_id or not prateleira_id or not quantidade_adicionada:
             return jsonify({'success': False, 'message': 'Dados incompletos.'}), 400
         
+        peso_total_balanca = emular_sensor(produto_id, quantidade_adicionada)   
+
         produto = Produto.query.get(produto_id)
         prateleira_produto = PrateleiraProduto.query.filter_by(produto_id=produto_id, prateleira_id=prateleira_id).first()
         
@@ -24,23 +34,19 @@ def adicionar_produto():
         if not prateleira_produto:
             return jsonify({'success': False, 'message': 'Produto não está registrado nesta prateleira.'}), 404
         
-        peso_por_unidade = produto.peso  
-        peso_atual_adicionado = peso_por_unidade * quantidade_adicionada
+        quantidade_calculada = round(peso_total_balanca / produto.peso)
 
-        preco_total = produto.preco_unidade * quantidade_adicionada
-
-        prateleira_produto.quantidade += quantidade_adicionada
-        prateleira_produto.peso_atual += peso_atual_adicionado
-        prateleira_produto.preco_total += preco_total  
+        prateleira_produto.quantidade += quantidade_calculada
+        prateleira_produto.peso_atual += peso_total_balanca
+        prateleira_produto.preco_total += produto.preco_unidade * quantidade_calculada
 
         historico = HistoricoMovimentacao(
             produto_id=produto_id,
             prateleira_id=prateleira_id,
             tipo_movimentacao='entrada',
-            quantidade=quantidade_adicionada,
-            preco_total=preco_total
+            quantidade=quantidade_calculada,
+            preco_total=produto.preco_unidade * quantidade_calculada
         )
-
 
         db.session.add(historico)
         db.session.commit()
@@ -63,6 +69,8 @@ def retirar_produto():
         if not produto_id or not prateleira_id or not quantidade_retirada:
             return jsonify({'success': False, 'message': 'Dados incompletos.'}), 400
         
+        peso_total_balanca = emular_sensor(produto_id, quantidade_retirada)
+
         produto = Produto.query.get(produto_id)
         prateleira_produto = PrateleiraProduto.query.filter_by(produto_id=produto_id, prateleira_id=prateleira_id).first()
 
@@ -72,14 +80,18 @@ def retirar_produto():
             return jsonify({'success': False, 'message': 'Produto não está registrado nesta prateleira.'}), 404
         
         if prateleira_produto.quantidade == 0:
-            return jsonify({'success': False, 'message': 'Não é possível retirar essa quantidade de produtos.'}), 400
+            return jsonify({'success': False, 'message': 'Não há produtos para retirar.'}), 400
+
+        peso_para_quantidade = peso_total_balanca / produto.peso
+
+        if prateleira_produto.quantidade < peso_para_quantidade:
+            return jsonify({'success': False, 'message': 'Quantidade insuficiente para retirada.'}), 400
 
         peso_por_unidade = produto.peso  
-        peso_atual_retirado = peso_por_unidade * quantidade_retirada
+        peso_atual_retirado = peso_por_unidade * peso_para_quantidade
+        preco_total = produto.preco_unidade * peso_para_quantidade
 
-        preco_total = produto.preco_unidade * quantidade_retirada
-
-        prateleira_produto.quantidade -= quantidade_retirada
+        prateleira_produto.quantidade -= peso_para_quantidade
         prateleira_produto.peso_atual -= peso_atual_retirado
         prateleira_produto.preco_total -= preco_total
 
@@ -87,7 +99,7 @@ def retirar_produto():
             produto_id=produto_id,
             prateleira_id=prateleira_id,
             tipo_movimentacao='saida',
-            quantidade=quantidade_retirada,
+            quantidade=peso_para_quantidade,
             preco_total=preco_total
         )
 
