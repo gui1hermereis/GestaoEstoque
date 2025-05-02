@@ -94,5 +94,11 @@ npm install
 npm run dev
 ```
 
+## 📸 Screenshots
+
+<div align="center">
+  <img src="frontend/public/home.png" alt="Tela de Login" width="400"/>
+</div>
+
 ## 📬 Contato
 Desenvolvido por Guilherme Reis 🚀
