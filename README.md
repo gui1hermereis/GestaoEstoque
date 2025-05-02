@@ -97,7 +97,12 @@ npm run dev
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="frontend/public/home.png" alt="Tela de Login" width="400"/>
+  <img src="frontend/public/Home.png" alt="Tela home" width="400"/>
+  <img src="frontend/public/Produtos.png" alt="Tela home" width="400"/>
+  <img src="frontend/public/Prateleiras.png" alt="Tela home" width="400"/>
+  <img src="frontend/public/Estoque.png" alt="Tela home" width="400"/>
+  <img src="frontend/public/Alertas.png" alt="Tela home" width="400"/>
+  <img src="frontend/public/Historico.png" alt="Tela home" width="400"/>
 </div>
 
 ## 📬 Contato
