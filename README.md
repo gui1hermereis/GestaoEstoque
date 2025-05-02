@@ -108,9 +108,11 @@ npm run dev
 ## 📸 Screenshots Dashboard
 
 <div align="center">
-  <img src="frontend/public/tela_1_dash.png" alt="Tela 1 Dashboard" width="300"/>
-  <img src="frontend/public/tela_2_dash.png" alt="Tela 2 Dashboard" width="300"/>
-  <img src="frontend/public/tela_3_dash.png" alt="Tela 3 Dashboard" width="300"/>
+  <img src="frontend/public/tela_1_dash.png" alt="Tela 1 Dashboard" width="500"/>
+  </br>
+  <img src="frontend/public/tela_2_dash.png" alt="Tela 2 Dashboard" width="500"/>
+  </br>
+  <img src="frontend/public/tela_3_dash.png" alt="Tela 3 Dashboard" width="500"/>
 </div>
 
 ## 📬 Contato
