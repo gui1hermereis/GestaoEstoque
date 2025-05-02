@@ -11,7 +11,7 @@ Sistema completo de gestão de estoque, simulando um ambiente IoT com controle d
 - Geração de alertas para níveis críticos de estoque
 - Registro de histórico de movimentações
 - Botão para simulação de movimentações no estoque
-- Envio e exclusão automática de dados no TagoIO
+- Envio e exclusão automática de dados para o TagoIO por temporizador
 - Dashboard de visualização no Tagorun
 - Integração segura com MySQL
 - Interface web moderna
