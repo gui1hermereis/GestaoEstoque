@@ -45,8 +45,8 @@ def enviar_arquivos_tago():
         print(f"Erro ao executar o arquivo: {e}")
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(excluir_arquivos_tago, 'interval', minutes=60)  
-scheduler.add_job(enviar_arquivos_tago, 'interval', minutes=60)  
+scheduler.add_job(excluir_arquivos_tago, 'interval', minutes=10)  
+scheduler.add_job(enviar_arquivos_tago, 'interval', minutes=12)  
 
 if __name__ == "__main__":
     with app.app_context():

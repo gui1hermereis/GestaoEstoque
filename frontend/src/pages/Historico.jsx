@@ -50,7 +50,7 @@ function Historico() {
                         <th>Marca</th>
                         <th>Prateleira</th>
                         <th>Setor</th>
-                        <th>quantidade</th>
+                        <th>Quantidade</th>
                         <th>Valor total</th>
                         <th>Data</th>
                         <th>Tipo de movimentação</th>

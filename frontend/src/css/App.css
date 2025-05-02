@@ -245,6 +245,7 @@ td:last-child {
 
 .prateleiras-produtos-header {
   font-size: 28px;
+  margin-left: 60px;
   font-weight: 600;
   color: #343a40;
   text-align: center;
@@ -450,6 +451,7 @@ td:last-child {
   background-color: #0A1A2E;
   color: white;
   font-size: 18px;
+  margin-left: 60px;
   border: none;
   border-radius: 5px;
   cursor: pointer;

@@ -248,7 +248,7 @@ function PrateleirasProdutos() {
                 </div>
                 <div className="botao-add">
                     <button onClick={() => abrirModal()} className="btn btn-adicionar">
-                        <FaPlus /> Adicionar Novo Produto
+                        <FaPlus /> Adicionar Produto a Prateleira
                     </button>
                 </div>
             </div>
@@ -297,7 +297,7 @@ function PrateleirasProdutos() {
                 showModal && (
                     <div className="modal">
                         <div className="modal-content">
-                            <h3>{produtoSelecionado ? 'Editar Produto' : 'Adicionar Produto'}</h3>
+                            <h3>{produtoSelecionado ? 'Editar Produto na Prateleira' : 'Adicionar Produto na Prateleira'}</h3>
                             <form onSubmit={handleSubmit}>
                                 <select name="produto_id" value={formData.produto_id} onChange={handleInputChange} required>
                                     <option value="">Selecione o Produto</option>
@@ -329,7 +329,7 @@ function PrateleirasProdutos() {
                     <div className="modal">
                         <div className="modal-content">
                             <h3>Confirmar Exclusão</h3>
-                            <p>Tem certeza que deseja excluir este produto?</p>
+                            <p>Tem certeza que deseja excluir?</p>
                             <div className="modal-actions">
                                 <button className="btn btn-cancelar" onClick={() => setShowConfirmModal(false)}>Cancelar</button>
                                 <button className="btn btn-salvar" onClick={confirmarExclusao}>Sim, excluir</button>

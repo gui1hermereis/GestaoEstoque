@@ -4,12 +4,14 @@ Sistema completo de gestão de estoque, simulando um ambiente IoT com controle d
 
 ### ✨ Funcionalidades
 - Simulação de um sistema IoT de gerenciamento de estoque por peso
-- Criação e edição de produtos e prateleiras
-- Atribuição de produtos a prateleiras específicas
+- Criação, edição e exclusão de produtos e prateleiras
+- Atribuição, edição e exclusão de produtos em prateleiras específicas
 - Controle automático de entradas e saídas de produtos
 - Atualização em tempo real da quantidade em prateleira
 - Geração de alertas para níveis críticos de estoque
 - Registro de histórico de movimentações
+- Botão para simulação de movimentações no estoque
+- Envio e exclusão automática de dados no TagoIO
 - Dashboard de visualização no Tagorun
 - Integração segura com MySQL
 - Interface web moderna

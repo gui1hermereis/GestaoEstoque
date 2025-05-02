@@ -137,7 +137,7 @@ function Prateleiras() {
 
             <div className="botao-add">
                 <button onClick={() => abrirModal()} className="btn btn-adicionar">
-                    <FaPlus /> Adicionar Novo Produto
+                    <FaPlus /> Adicionar Nova Prateleira
                 </button>
             </div>
 
