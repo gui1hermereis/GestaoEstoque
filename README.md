@@ -94,5 +94,24 @@ npm install
 npm run dev
 ```
 
+## 📸 Screenshots Site
+
+<div align="center">
+  <img src="frontend/public/Home.png" alt="Tela home" width="400"/>
+  <img src="frontend/public/Produtos.png" alt="Tela produtos" width="400"/>
+  <img src="frontend/public/Prateleiras.png" alt="Tela Prateleiras" width="400"/>
+  <img src="frontend/public/Estoque.png" alt="Tela Estoque" width="400"/>
+  <img src="frontend/public/Alertas.png" alt="Tela Alertas" width="400"/>
+  <img src="frontend/public/Historico.png" alt="Tela Historico" width="400"/>
+</div>
+
+## 📸 Screenshots Dashboard
+
+<div align="center">
+  <img src="frontend/public/tela _1_dash.png" alt="Tela 1 Dashboard" width="400"/>
+  <img src="frontend/public/tela _2_dash.png" alt="Tela 2 Dashboard" width="400"/>
+  <img src="frontend/public/tela _3_dash.png" alt="Tela 3 Dashboard" width="400"/>
+</div>
+
 ## 📬 Contato
 Desenvolvido por Guilherme Reis 🚀
